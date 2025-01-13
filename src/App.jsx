@@ -20,7 +20,8 @@ function App() {
   const [b, setB] = useState([])
   const [styleE, setStyle] = useState('big bars + labels')
   const [classN, setClassN] = useState('stack-elements big-bars')
-
+  const [showIndxes, setShowindexes] = useState(true)
+  
   const stackOps = new Sop(indexedElements, b, setIndexedElements, setB, setInstructions);
 
   const indexElements = (elements, setIndexedElements) => {
@@ -61,20 +62,19 @@ function App() {
 
 
   return (
-    <div className=' flex h-screen w-full'>
-      <div className='  max-w-screen-sm '>
-        <Button onClick={() => solve()}>Solve</Button>
-        <Instructions setStyle={setStyle} ops={stackOps} setA={setElements} setB={setB} setInstructions={setInstructions}  instructions={instructions} ></Instructions>
+    <div className='flex h-screen lg:w-2/3 mx-auto '>
+      <div className='inst max-w-screen-sm'>
+        <Instructions setShowindexes={setShowindexes} showIndxes={showIndxes}  setStyle={setStyle} ops={stackOps} setA={setElements} setB={setB} setInstructions={setInstructions}  instructions={instructions} ></Instructions>
       </div>
       <div className= {`bg-black flex-1 overflow-y-scroll rr `} ref={stackA}>
         {indexedElements.map((el, i) => <div key={i} style={{width : (stackADim.width - 20) / elements.length * (el.index + 1) ,
           backgroundColor: `hsl(${(elements.length - el.index) * 60 / elements.length}, 90%, 50%)`
-        }} className={classN} > {styleE.includes('labels') && el.index} </div>)}
+        }} className={classN} > {styleE.includes('labels') && (showIndxes ? el.index : el.num)} </div>)}
       </div>
       <div className=' bg-black flex-1 overflow-y-scroll rr'>
       {b.map((el, i) => <div key={i} style={{width : (stackADim.width - 20) / elements.length * (el.index + 1) ,
           backgroundColor: `hsl(${(elements.length - el.index) * 60 / elements.length}, 100%, 50%)`
-        }} className={classN}>{styleE.includes('labels') && el.index}   </div>)}
+      }} className={classN}>{styleE.includes('labels') && (showIndxes ? el.index : el.num)}   </div>)}
       </div>
     </div>
   )

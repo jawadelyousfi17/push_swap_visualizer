@@ -558,6 +558,15 @@ video {
   visibility: visible;
 }
 
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.mt-4 {
+  margin-top: 1rem;
+}
+
 .block {
   display: block;
 }
@@ -572,6 +581,10 @@ video {
 
 .h-screen {
   height: 100vh;
+}
+
+.h-6 {
+  height: 1.5rem;
 }
 
 .w-full {
@@ -602,12 +615,24 @@ video {
   align-items: flex-start;
 }
 
+.items-center {
+  align-items: center;
+}
+
 .justify-start {
   justify-content: flex-start;
 }
 
+.justify-between {
+  justify-content: space-between;
+}
+
 .gap-2 {
   gap: 0.5rem;
+}
+
+.gap-4 {
+  gap: 1rem;
 }
 
 .gap-y-2 {
@@ -627,13 +652,13 @@ video {
   background-color: rgb(0 0 0 / var(--tw-bg-opacity, 1));
 }
 
-.p-4 {
-  padding: 1rem;
+.bg-slate-400 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(148 163 184 / var(--tw-bg-opacity, 1));
 }
 
-.py-5 {
-  padding-top: 1.25rem;
-  padding-bottom: 1.25rem;
+.p-4 {
+  padding: 1rem;
 }
 
 .filter {
@@ -655,7 +680,7 @@ button {
     font-family: Arial, sans-serif;
     border-radius: 5px;
     background-color: #f9f9f9; */
-  max-height: 300px;
+  max-height: 350px;
   /* Limit height */
   overflow-y: auto;
   /* Enable vertical scrolling */
@@ -680,6 +705,8 @@ button {
 
 .rr {
   padding-top: 20px;
+  max-width: 350px;
+  min-width: 300px;
 }
 
 .big-bars {
@@ -710,4 +737,19 @@ button {
 
 .instruction.active {
   background-color: #ccc;
+}
+
+.inst {
+  min-width: 550px;
+  max-width: 650px;
+}
+
+.active {
+  background-color: #88fe55;
+}
+
+@media (min-width: 1024px) {
+  .lg\:w-2\/3 {
+    width: 66.666667%;
+  }
 }

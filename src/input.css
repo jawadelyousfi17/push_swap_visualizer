@@ -18,7 +18,8 @@ button {
     border-radius: 5px;
     background-color: #f9f9f9; */
 
-    max-height: 300px; /* Limit height */
+
+    max-height: 350px; /* Limit height */
     overflow-y: auto;  /* Enable vertical scrolling */
     overflow-x: hidden; /* Disable horizontal scrolling */
   }
@@ -39,6 +40,8 @@ button {
 
   .rr {
     padding-top: 20px;
+    max-width: 350px;
+    min-width: 300px;
   }
 
 .big-bars {
@@ -69,4 +72,13 @@ button {
 
   .instruction.active {
     background-color: #ccc;
+  }
+
+  .inst {
+    min-width: 550px;
+    max-width: 650px;
+  }
+
+  .active {
+    background-color: #88fe55;
   }
