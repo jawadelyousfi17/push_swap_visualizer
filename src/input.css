@@ -42,6 +42,7 @@ button {
     padding-top: 20px;
     max-width: 350px;
     min-width: 300px;
+    max-height: calc(100vh - 200px);
   }
 
 .big-bars {
