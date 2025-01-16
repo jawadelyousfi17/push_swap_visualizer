@@ -40,6 +40,9 @@ import Switch from "@mui/joy/Switch";
 import Snackbar from "@mui/joy/Snackbar";
 import Divider from "@mui/joy/Divider";
 
+import solvePushSwap from '../../utils/solve'
+import Benchmark from "../benchmark";
+
 const Instructions = ({
   ops,
   setA,
@@ -68,6 +71,7 @@ const Instructions = ({
   const [snackBarStatus, setSnackBarStatus] = useState(false);
   const [snackBarMessage, setSnackBarMessage] = useState("");
   const [showInstructions, setShowInstructions] = useState(true);
+  const intervalRef1 = useRef(null);
 
   const getIcon = (inst) => {
     if (inst === "ra" || inst === "rb") return <FaArrowUp></FaArrowUp>;
@@ -79,6 +83,10 @@ const Instructions = ({
     if (inst == "pb") return <FaArrowRight />;
     if (inst == "pb") return <FaArrowLeft />;
   };
+
+  const heySolveMe =  () => {
+      solvePushSwap({ ops });
+  }
 
 
   useEffect(() => {
@@ -320,6 +328,7 @@ const Instructions = ({
         </TabPanel>
         <TabPanel value={1}>
           <div className="flex flex-col gap-2">
+        {/* <Button variant="outlined" id="myButton" color="neutral" onClick={() => heySolveMe()}>solve</Button> */}
             <Button
               variant={isRecording ? "solid" : "soft"}
               color="danger"
@@ -460,6 +469,8 @@ const Instructions = ({
               </Button>
             </div>
 
+                {instructions.length}
+
             <Textarea
               minRows={10}
               maxRows={20}
@@ -528,7 +539,6 @@ const Instructions = ({
             </div>
           )}
         </TabPanel>
-
         <TabPanel value={3}>
           <div className="flex flex-col gap-4 justify-start">
             <ToggleButtonGroup
@@ -565,7 +575,7 @@ const Instructions = ({
         </TabPanel>
 
         <TabPanel value={4}>
-          <div className="flex flex-col gap-2">Coming soon</div>
+          <Benchmark setSnackBarStatus={setSnackBarStatus} setSnackBarMessage={setSnackBarMessage}  ></Benchmark>
         </TabPanel>
       </Tabs>
     </div>

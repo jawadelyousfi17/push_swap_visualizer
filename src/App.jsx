@@ -3,10 +3,8 @@ import { useEffect, useRef, useState } from 'react'
 import '/src/output.css'
 import Instructions from './comps/instructions/comp'
 import Sop from './utils/stack'
-import { StyledCardRoot } from '@mui/joy/Card/Card'
 import { Button } from '@mui/joy'
 import solvePushSwap from './utils/solve'
-import Link from '@mui/joy/Link';
 import { IoIosBug } from "react-icons/io";
 import Divider from '@mui/joy/Divider';
 import Typography from '@mui/joy/Typography';
@@ -93,9 +91,7 @@ function App() {
       }} className={classN}>{styleE.includes('labels') && (showIndxes ? el.index : el.num)}   </div>)}
       </div>
     </div>
-      
       </div>
-   
   )
 }
 
