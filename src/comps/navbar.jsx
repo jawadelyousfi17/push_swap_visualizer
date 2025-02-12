@@ -13,12 +13,12 @@ import { IoMoonOutline } from "react-icons/io5";
 
 import { IoLogoGithub } from "react-icons/io";
 
-const Navbar = ({theme, handleTheme, mode, setMode}) => {
+const Navbar = ({ theme, handleTheme, mode, setMode }) => {
 
-    function setT(){
+    function setT() {
         if (mode === 'dark')
-                setMode('light')
-    else setMode('dark')
+            setMode('light')
+        else setMode('dark')
     }
 
     return (
@@ -26,27 +26,27 @@ const Navbar = ({theme, handleTheme, mode, setMode}) => {
             <Typography level="h2" sx={{ fontSize: 'xl', mb: 0.5 }}>
                 Push swap visualizer
             </Typography>
-            <div className="flex gap-2">  
+            <div className="flex gap-2">
                 <IconButton onClick={setT} variant="outlined"  >
 
-{mode === 'dark' && <MdOutlineWbSunny/>
-}
-{mode === 'light' && <IoMoonOutline/>
-}                </IconButton>
+                    {mode === 'dark' && <MdOutlineWbSunny />
+                    }
+                    {mode === 'light' && <IoMoonOutline />
+                    }                </IconButton>
 
-<Select defaultValue={theme} onChange={handleTheme}>
-<Option value="default">Default</Option>
-  <Option value="red">Red</Option>
-  <Option value="blue">Blue</Option>
-  <Option value="green">Green</Option>
-  <Option value="rebecca">Rebecca Purple</Option>
-</Select>
+                <Select defaultValue={theme} onChange={handleTheme}>
+                    <Option value="default">Default</Option>
+                    <Option value="red">Red</Option>
+                    <Option value="blue">Blue</Option>
+                    <Option value="green">Green</Option>
+                    <Option value="rebecca">Rebecca Purple</Option>
+                </Select>
                 <Button component="a" href="https://github.com/jawadelyousfi17/push_swap_visualizer/issues" color='neutral' variant='plain' endDecorator={<RxOpenInNewWindow />}>Report bugs</Button>
-            
+
             </div>
 
             <div className="flex">
-            <Button component="a" href="https://profile.intra.42.fr/users/jel-yous" color='neutral' variant='plain' endDecorator={<Si42 />}>M with ❤ By jel-yous</Button>
+                <Button component="a" href="https://profile.intra.42.fr/users/jel-yous" color='neutral' variant='plain' endDecorator={<Si42 />}>M with ❤ By jel-yous [1337]</Button>
             </div>
 
         </div>
