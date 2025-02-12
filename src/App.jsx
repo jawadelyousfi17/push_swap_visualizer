@@ -6,12 +6,13 @@ import Sop from './utils/stack'
 import solvePushSwap from './utils/solve'
 import { useColorScheme } from "@mui/joy/styles";
 
+import { Analytics } from "@vercel/analytics/react"
 
 import Navbar from './comps/navbar'
 import { CssBaseline, Divider, Sheet } from '@mui/joy'
 
 function App() {
-  const {mode, setMode}= useColorScheme()
+  const { mode, setMode } = useColorScheme()
 
   const stackA = useRef(null)
   const [stackADim, setStackADim] = useState({ width: 0, height: 0 })
@@ -45,7 +46,7 @@ function App() {
     })));
   }
   useEffect(() => {
-   if (styleE.includes('small')) {
+    if (styleE.includes('small')) {
       setClassN('stack-elements small-bars')
     } else {
       setClassN('stack-elements big-bars')
@@ -53,11 +54,11 @@ function App() {
   }, [styleE])
 
 
-    useEffect(() => {
-      localStorage.setItem("thm", theme)
-      const th = {red :10, green : 120, blue : 220, rebecca : 270, default : 50}
-      setClg(th[theme])
-    }, [theme])
+  useEffect(() => {
+    localStorage.setItem("thm", theme)
+    const th = { red: 10, green: 120, blue: 220, rebecca: 270, default: 50 }
+    setClg(th[theme])
+  }, [theme])
 
 
   useEffect(() => {
@@ -74,41 +75,44 @@ function App() {
   }, [])
 
 
-  
+
   const handleTheme = (e, n) => {
     setTheme(n)
   }
 
-  useEffect(() => { indexElements(elements, setIndexedElements) }, [elements]) 
+  useEffect(() => { indexElements(elements, setIndexedElements) }, [elements])
   useEffect(() => { console.log(indexedElements) }, [indexedElements])
 
 
   return (
     <div className='flex flex-col'>
-     <CssBaseline></CssBaseline>
+      <Analytics/>
+      <CssBaseline></CssBaseline>
 
-<Navbar mode={mode} setMode={setMode} theme={theme} handleTheme={handleTheme}/>
+      <Navbar mode={mode} setMode={setMode} theme={theme} handleTheme={handleTheme} />
 
-<Divider></Divider>
+      <Divider></Divider>
 
-       <div className='flex h-screen 2xl:w-2/3 mx-auto '>
-      <div className='inst max-w-screen-sm'>
-        <Instructions theme={theme} setTheme={setTheme} clg={clg} setClg={setClg} setShowindexes={setShowindexes} showIndxes={showIndxes}  setStyle={setStyle} ops={stackOps} setA={setElements} setB={setB} setInstructions={setInstructions}  instructions={instructions} ></Instructions>
+      <div className='flex h-screen 2xl:w-2/3 mx-auto '>
+        <div className='inst max-w-screen-sm'>
+          <Instructions theme={theme} setTheme={setTheme} clg={clg} setClg={setClg} setShowindexes={setShowindexes} showIndxes={showIndxes} setStyle={setStyle} ops={stackOps} setA={setElements} setB={setB} setInstructions={setInstructions} instructions={instructions} ></Instructions>
+        </div>
+        <Sheet variant='outlined' className={` flex-1 overflow-y-scroll rr`} ref={stackA}>
+          {indexedElements.map((el, i) => <div key={i} style={{
+            width: (stackADim.width - 20) / elements.length * (el.index + 1),
+            backgroundColor: theme !== 'default' ? `hsl(${clg + (elements.length - el.index) * 25 / elements.length}, 90%, ${(elements.length - el.index) * 75 / elements.length + 15}%)` : `hsl(${(elements.length - el.index) * 60 / elements.length}, 100%, 50%)`
+
+          }} className={classN} > {styleE.includes('labels') && (showIndxes ? el.index : el.num)} </div>)}
+        </Sheet>
+
+        <Sheet variant='outlined' className='  flex-1 overflow-y-scroll rr'>
+          {b.map((el, i) => <div key={i} style={{
+            width: (stackADim.width - 20) / elements.length * (el.index + 1),
+            backgroundColor: theme !== 'default' ? `hsl(${clg}, 90%, ${(elements.length - el.index) * 50 / elements.length + 5}%)` : `hsl(${(elements.length - el.index) * 60 / elements.length}, 100%, 50%)`
+          }} className={classN}>{styleE.includes('labels') && (showIndxes ? el.index : el.num)}   </div>)}
+        </Sheet>
       </div>
-      <Sheet variant='outlined' className= {` flex-1 overflow-y-scroll rr`} ref={stackA}>
-        {indexedElements.map((el, i) => <div key={i}  style={{width : (stackADim.width - 20) / elements.length * (el.index + 1) ,
- backgroundColor: theme !== 'default'  ? `hsl(${clg}, 90%, ${(elements.length - el.index) * 50 / elements.length + 5}%)` : `hsl(${(elements.length - el.index) * 60 / elements.length}, 100%, 50%)`
-
-        }} className={classN} > {styleE.includes('labels') && (showIndxes ? el.index : el.num)} </div>)}
-      </Sheet>
-
-      <Sheet variant='outlined' className='  flex-1 overflow-y-scroll rr'>
-      {b.map((el, i) => <div key={i} style={{width : (stackADim.width - 20) / elements.length * (el.index + 1) ,
- backgroundColor: theme !== 'default'  ? `hsl(${clg}, 90%, ${(elements.length - el.index) * 50 / elements.length + 5}%)` : `hsl(${(elements.length - el.index) * 60 / elements.length}, 100%, 50%)`
-}} className={classN}>{styleE.includes('labels') && (showIndxes ? el.index : el.num)}   </div>)}
-      </Sheet>
     </div>
-      </div>
   )
 }
 
