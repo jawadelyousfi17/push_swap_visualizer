@@ -3,19 +3,15 @@ import { useEffect, useRef, useState } from 'react'
 import '/src/output.css'
 import Instructions from './comps/instructions/comp'
 import Sop from './utils/stack'
-import { Button } from '@mui/joy'
 import solvePushSwap from './utils/solve'
-import { IoIosBug } from "react-icons/io";
-import Divider from '@mui/joy/Divider';
-import Typography from '@mui/joy/Typography';
+import { useColorScheme } from "@mui/joy/styles";
 
 
-
-import { IoLogoGithub } from "react-icons/io";
-
+import Navbar from './comps/navbar'
+import { CssBaseline, Divider, Sheet } from '@mui/joy'
 
 function App() {
-
+  const {mode, setMode}= useColorScheme()
 
   const stackA = useRef(null)
   const [stackADim, setStackADim] = useState({ width: 0, height: 0 })
@@ -26,8 +22,24 @@ function App() {
   const [styleE, setStyle] = useState('big bars + labels')
   const [classN, setClassN] = useState('stack-elements big-bars')
   const [showIndxes, setShowindexes] = useState(true)
-  
+  const [theme, setTheme] = useState(localStorage.getItem('thm') || 'blue')
+  const [clg, setClg] = useState(0)
   const stackOps = new Sop(indexedElements, b, setIndexedElements, setB, setInstructions);
+
+
+  useEffect(() => {
+    localStorage.setItem("mode", mode);
+  }, [mode]);
+
+  useEffect(() => {
+    const savedMode = localStorage.getItem("mode");
+    if (savedMode) {
+      setMode(savedMode);
+    } else {
+      setMode('dark');
+    }
+  }, []);
+
 
   const indexElements = (elements, setIndexedElements) => {
     const sortedArr = [...elements].sort((a, b) => a - b);
@@ -44,6 +56,14 @@ function App() {
     }
   }, [styleE])
 
+
+    useEffect(() => {
+      localStorage.setItem("thm", theme)
+      const th = {red :10, green : 120, blue : 220, rebecca : 270}
+      setClg(th[theme])
+    }, [theme])
+
+
   useEffect(() => {
     const setDims = () => {
       setStackADim({
@@ -57,39 +77,40 @@ function App() {
     return () => window.removeEventListener('resize', setDims)
   }, [])
 
-  const solve = () => {
-    solvePushSwap({ ops: stackOps });
-  }
 
+  
+  const handleTheme = (e, n) => {
+    setTheme(n)
+  }
 
   useEffect(() => { indexElements(elements, setIndexedElements) }, [elements]) 
   useEffect(() => { console.log(indexedElements) }, [indexedElements])
 
 
   return (
-    <div className='flex flex-col  gap-4'>
-      <div className='flex h-16 w-auto justify-center items-center gap-4' >
-      <Typography level="h2" sx={{ fontSize: 'xl', mb: 0.5 }}>
-    Push swap visualizer
-  </Typography>
-        <Button onClick={() => window.location = "https://github.com/jawadelyousfi17/push_swap_visualizer"} color='neutral' variant='outlined' startDecorator={<IoLogoGithub/> }>Github</Button>
-        <Button onClick={() => window.location = "https://github.com/jawadelyousfi17/push_swap_visualizer/issues"} color='neutral' variant='outlined' startDecorator={<IoIosBug/> }>Report bugs</Button>
-      <Divider/>
-      </div>
-       <div className='flex h-screen lg:w-2/3 mx-auto '>
+    <div className='flex flex-col'>
+     <CssBaseline></CssBaseline>
+
+<Navbar mode={mode} setMode={setMode} theme={theme} handleTheme={handleTheme}/>
+
+<Divider></Divider>
+
+       <div className='flex h-screen 2xl:w-2/3 mx-auto '>
       <div className='inst max-w-screen-sm'>
-        <Instructions setShowindexes={setShowindexes} showIndxes={showIndxes}  setStyle={setStyle} ops={stackOps} setA={setElements} setB={setB} setInstructions={setInstructions}  instructions={instructions} ></Instructions>
+        <Instructions theme={theme} setTheme={setTheme} clg={clg} setClg={setClg} setShowindexes={setShowindexes} showIndxes={showIndxes}  setStyle={setStyle} ops={stackOps} setA={setElements} setB={setB} setInstructions={setInstructions}  instructions={instructions} ></Instructions>
       </div>
-      <div className= {`bg-black flex-1 overflow-y-scroll rr `} ref={stackA}>
-        {indexedElements.map((el, i) => <div key={i} style={{width : (stackADim.width - 20) / elements.length * (el.index + 1) ,
-          backgroundColor: `hsl(${(elements.length - el.index) * 60 / elements.length}, 90%, 50%)`
+      <Sheet variant='outlined' className= {` flex-1 overflow-y-scroll rr`} ref={stackA}>
+        {indexedElements.map((el, i) => <div key={i}  style={{width : (stackADim.width - 20) / elements.length * (el.index + 1) ,
+ backgroundColor: `hsl(${clg}, 60%, ${(elements.length - el.index) * 50 / elements.length + 5}%)`
+
         }} className={classN} > {styleE.includes('labels') && (showIndxes ? el.index : el.num)} </div>)}
-      </div>
-      <div className=' bg-black flex-1 overflow-y-scroll rr'>
+      </Sheet>
+
+      <Sheet variant='outlined' className='  flex-1 overflow-y-scroll rr'>
       {b.map((el, i) => <div key={i} style={{width : (stackADim.width - 20) / elements.length * (el.index + 1) ,
-          backgroundColor: `hsl(${(elements.length - el.index) * 60 / elements.length}, 100%, 50%)`
-      }} className={classN}>{styleE.includes('labels') && (showIndxes ? el.index : el.num)}   </div>)}
-      </div>
+ backgroundColor: `hsl(${clg}, 100%, ${(elements.length - el.index) * 50 / elements.length + 10}%)`
+}} className={classN}>{styleE.includes('labels') && (showIndxes ? el.index : el.num)}   </div>)}
+      </Sheet>
     </div>
       </div>
   )

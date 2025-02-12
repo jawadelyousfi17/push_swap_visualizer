@@ -40,8 +40,10 @@ import Switch from "@mui/joy/Switch";
 import Snackbar from "@mui/joy/Snackbar";
 import Divider from "@mui/joy/Divider";
 
+
 import solvePushSwap from '../../utils/solve'
 import Benchmark from "../benchmark";
+import Seo from "../seo";
 
 const Instructions = ({
   ops,
@@ -52,12 +54,13 @@ const Instructions = ({
   setStyle,
   showIndxes,
   setShowindexes,
+  theme, setTheme, clg, setClg
 }) => {
   const [numbers, setNumbers] = useState("");
   const editableDivRef = useRef(null);
   const [index, setIndex] = useState(0);
   const instructionRefs = useRef([]);
-  const [isRecording, setIsRecording] = useState(false);
+  const [isRecording, setIsRecording] = useState(true);
   const [InputValue, setInputValue] = useState("");
   const [isStop, setIsStop] = useState(false);
   const [showDash, setShowDash] = useState(true);
@@ -89,6 +92,8 @@ const Instructions = ({
   }
 
 
+
+
   useEffect(() => {
     if (snackBarStatus) {
       setTimeout(() => {
@@ -100,9 +105,9 @@ const Instructions = ({
   useEffect(() => {
     if (instructionRefs.current[index]) {
       instructionRefs.current[index].scrollIntoView({
-        // behavior: "smooth",
-        block: "center",
-      });
+      // Keeps it in view horizontally too
+        block : "end"
+           });
     }
   }, [index]);
   useEffect(() => {
@@ -128,6 +133,10 @@ const Instructions = ({
   const setInst = (inst) => {
     setInstructions(inst.split("\n"));
   };
+
+useEffect(() => {
+  setThis()
+}, [numbers])
 
   const doInst = (instruction, reverse = false) => {
     const operationMap = {
@@ -254,13 +263,18 @@ const Instructions = ({
     }
   };
 
+const handleKeyDown = (e) => {
+  if (e.key === 'Enter')
+   rand()
+}
+
   const handleelect = (e, n) => {
     setSelectedValue(n);
     setStyle(n);
   };
 
   return (
-    <div className="flex flex-col p-4 gap-2 min-w-1/4">
+    <div className="flex flex-col p-4 gap-2 min-w-1/4 shrink-1">
       {/* Alert */}
       <Box sx={{ width: 500 }}>
         <Snackbar
@@ -285,6 +299,7 @@ const Instructions = ({
               <b>PUSH SWAP VIZUALISER</b>
               <h4>Generate random numbers</h4>
               <Input
+              onKeyDown={handleKeyDown}
                 value={InputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 type="number"
@@ -325,6 +340,9 @@ const Instructions = ({
               </div>
             </div>
           </div>
+
+<Seo></Seo>
+
         </TabPanel>
         <TabPanel value={1}>
           <div className="flex flex-col gap-2">
@@ -473,7 +491,7 @@ const Instructions = ({
 
             <Textarea
               minRows={10}
-              maxRows={20}
+              maxRows={10}
               placeholder="Past your instructions here"
               ref={editableDivRef}
               contentEditable="true"
@@ -524,7 +542,7 @@ const Instructions = ({
           </div>
           {showInstructions && (
             <div
-              className="mt-4 editable-div flex flex-wrap justify-start items-start gap-2 gap-y-2"
+              className="mt-4 editable-div h-80  flex flex-wrap justify-start items-start gap-2 gap-y-2"
               style={{ overflowY: "auto" }}
             >
               {instructions.map((ins, i) => (
@@ -570,6 +588,10 @@ const Instructions = ({
                   }
                 />
               </div>
+
+           
+
+
             </div>
           </div>
         </TabPanel>

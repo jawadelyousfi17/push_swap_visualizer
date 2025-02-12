@@ -567,6 +567,10 @@ video {
   margin-top: 1rem;
 }
 
+.mt-40 {
+  margin-top: 10rem;
+}
+
 .block {
   display: block;
 }
@@ -575,12 +579,16 @@ video {
   display: flex;
 }
 
-.h-16 {
-  height: 4rem;
+.h-14 {
+  height: 3.5rem;
 }
 
 .h-6 {
   height: 1.5rem;
+}
+
+.h-80 {
+  height: 20rem;
 }
 
 .h-screen {
@@ -631,8 +639,8 @@ video {
   justify-content: flex-start;
 }
 
-.justify-center {
-  justify-content: center;
+.justify-between {
+  justify-content: space-between;
 }
 
 .gap-2 {
@@ -655,13 +663,13 @@ video {
   border-width: 1px;
 }
 
-.bg-black {
-  --tw-bg-opacity: 1;
-  background-color: rgb(0 0 0 / var(--tw-bg-opacity, 1));
-}
-
 .p-4 {
   padding: 1rem;
+}
+
+.px-12 {
+  padding-left: 3rem;
+  padding-right: 3rem;
 }
 
 .filter {
@@ -703,22 +711,27 @@ button {
   background-color: aqua;
   margin-bottom: 0px;
   height: 4px;
-  border-radius: 4px;
+  border-radius: 0px;
 }
 
 .rr {
   padding-top: 20px;
   max-width: 350px;
   min-width: 300px;
-  max-height: calc(100vh - 200px);
+  max-height: calc(100vh - 80px);
+  border: 1px solid black;
+  border-radius: 8px;
+  margin: 9px;
 }
 
 .big-bars {
-  height: 30px;
+  margin-top: 2px;
+  height: 25px;
   color: white;
-  padding-left:20px ;
+  padding-left:10px ;
+  font-size: 14px;
   text-shadow: 1px 1px 2px #000000;
-  border-radius: 0px 4px 4px 0px;
+  border-radius: 0px ;
 }
 
 .small-bars {
@@ -752,8 +765,45 @@ button {
   background-color: #88fe55;
 }
 
-@media (min-width: 1024px) {
-  .lg\:w-2\/3 {
+/* For Webkit browsers (Chrome, Safari, Edge) */
+
+.rr::-webkit-scrollbar {
+  width: 12px;
+  /* Set the width of the scrollbar */
+  height: 12px;
+  /* Set the height of the scrollbar */
+}
+
+.rr::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+  /* Set background color of the track */
+  border-radius: 10px;
+  /* Round the corners of the track */
+}
+
+.rr::-webkit-scrollbar-thumb {
+  background-color: #888;
+  /* Set color of the thumb (scroll bar) */
+  border-radius: 10px;
+  /* Round the corners of the thumb */
+}
+
+.rr::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+  /* Darker color when hovered */
+}
+
+/* For Firefox */
+
+.rr {
+  scrollbar-width: thin;
+  /* Make the scrollbar thinner */
+  scrollbar-color: #888 #f1f1f1;
+  /* Set thumb and track colors */
+}
+
+@media (min-width: 1536px) {
+  .\32xl\:w-2\/3 {
     width: 66.666667%;
   }
 }

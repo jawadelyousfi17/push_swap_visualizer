@@ -35,22 +35,27 @@ button {
     background-color: aqua;
     margin-bottom: 0px;
     height: 4px;
-    border-radius: 4px;
+    border-radius: 0px;
   }
 
   .rr {
     padding-top: 20px;
     max-width: 350px;
     min-width: 300px;
-    max-height: calc(100vh - 200px);
+    max-height: calc(100vh - 80px);
+    border: 1px solid black;
+    border-radius: 8px;
+    margin: 9px;
   }
 
 .big-bars {
-  height: 30px;
+  margin-top: 2px;
+  height: 25px;
   color: white;
-  padding-left:20px ;
+  padding-left:10px ;
+  font-size: 14px;
   text-shadow: 1px 1px 2px #000000;
-  border-radius: 0px 4px 4px 0px;
+  border-radius: 0px ;
 }
 
 .small-bars {     
@@ -83,3 +88,32 @@ button {
   .active {
     background-color: #88fe55;
   }
+
+
+
+
+/* For Webkit browsers (Chrome, Safari, Edge) */
+.rr::-webkit-scrollbar {
+  width: 12px; /* Set the width of the scrollbar */
+  height: 12px; /* Set the height of the scrollbar */
+}
+
+.rr::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* Set background color of the track */
+  border-radius: 10px; /* Round the corners of the track */
+}
+
+.rr::-webkit-scrollbar-thumb {
+  background-color: #888; /* Set color of the thumb (scroll bar) */
+  border-radius: 10px; /* Round the corners of the thumb */
+}
+
+.rr::-webkit-scrollbar-thumb:hover {
+  background-color: #555; /* Darker color when hovered */
+}
+
+/* For Firefox */
+.rr {
+  scrollbar-width: thin; /* Make the scrollbar thinner */
+  scrollbar-color: #888 #f1f1f1; /* Set thumb and track colors */
+}
