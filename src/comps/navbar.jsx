@@ -35,6 +35,7 @@ const Navbar = ({theme, handleTheme, mode, setMode}) => {
 }                </IconButton>
 
 <Select defaultValue={theme} onChange={handleTheme}>
+<Option value="default">Default</Option>
   <Option value="red">Red</Option>
   <Option value="blue">Blue</Option>
   <Option value="green">Green</Option>

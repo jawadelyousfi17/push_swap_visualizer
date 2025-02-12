@@ -22,7 +22,7 @@ function App() {
   const [styleE, setStyle] = useState('big bars + labels')
   const [classN, setClassN] = useState('stack-elements big-bars')
   const [showIndxes, setShowindexes] = useState(true)
-  const [theme, setTheme] = useState(localStorage.getItem('thm') || 'blue')
+  const [theme, setTheme] = useState(localStorage.getItem('thm') || 'default')
   const [clg, setClg] = useState(0)
   const stackOps = new Sop(indexedElements, b, setIndexedElements, setB, setInstructions);
 
@@ -55,7 +55,7 @@ function App() {
 
     useEffect(() => {
       localStorage.setItem("thm", theme)
-      const th = {red :10, green : 120, blue : 220, rebecca : 270}
+      const th = {red :10, green : 120, blue : 220, rebecca : 270, default : 50}
       setClg(th[theme])
     }, [theme])
 
@@ -97,14 +97,14 @@ function App() {
       </div>
       <Sheet variant='outlined' className= {` flex-1 overflow-y-scroll rr`} ref={stackA}>
         {indexedElements.map((el, i) => <div key={i}  style={{width : (stackADim.width - 20) / elements.length * (el.index + 1) ,
- backgroundColor: `hsl(${clg}, 60%, ${(elements.length - el.index) * 50 / elements.length + 5}%)`
+ backgroundColor: theme !== 'default'  ? `hsl(${clg}, 90%, ${(elements.length - el.index) * 50 / elements.length + 5}%)` : `hsl(${(elements.length - el.index) * 60 / elements.length}, 100%, 50%)`
 
         }} className={classN} > {styleE.includes('labels') && (showIndxes ? el.index : el.num)} </div>)}
       </Sheet>
 
       <Sheet variant='outlined' className='  flex-1 overflow-y-scroll rr'>
       {b.map((el, i) => <div key={i} style={{width : (stackADim.width - 20) / elements.length * (el.index + 1) ,
- backgroundColor: `hsl(${clg}, 100%, ${(elements.length - el.index) * 50 / elements.length + 10}%)`
+ backgroundColor: theme !== 'default'  ? `hsl(${clg}, 90%, ${(elements.length - el.index) * 50 / elements.length + 5}%)` : `hsl(${(elements.length - el.index) * 60 / elements.length}, 100%, 50%)`
 }} className={classN}>{styleE.includes('labels') && (showIndxes ? el.index : el.num)}   </div>)}
       </Sheet>
     </div>
