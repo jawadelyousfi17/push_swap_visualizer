@@ -26,19 +26,15 @@ function App() {
   const [clg, setClg] = useState(0)
   const stackOps = new Sop(indexedElements, b, setIndexedElements, setB, setInstructions);
 
+  useEffect(() => {
+    const savedMode = localStorage.getItem("mode");
+    setMode(savedMode || "dark")
+  }, []);
 
   useEffect(() => {
     localStorage.setItem("mode", mode);
   }, [mode]);
 
-  useEffect(() => {
-    const savedMode = localStorage.getItem("mode");
-    if (savedMode) {
-      setMode(savedMode);
-    } else {
-      setMode('dark');
-    }
-  }, []);
 
 
   const indexElements = (elements, setIndexedElements) => {
