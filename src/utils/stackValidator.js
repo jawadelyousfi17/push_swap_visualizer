@@ -31,34 +31,39 @@ export const isStackBEmpty = (stackB) => {
  * Validates if the push_swap algorithm completed successfully
  * @param {Object[]} stackA - Array of stack A elements
  * @param {Object[]} stackB - Array of stack B elements
+ * @param {string[]} instructions - Array of instructions executed
  * @returns {Object} Validation result with success status and message
  */
-export const validateSortingCompletion = (stackA, stackB) => {
+export const validateSortingCompletion = (stackA, stackB, instructions = []) => {
   const isASorted = isStackASorted(stackA);
   const isBEmpty = isStackBEmpty(stackB);
+  
+  // Count actual instructions (exclude END marker)
+  const instructionCount = instructions.filter(inst => inst !== "END").length;
+  const instructionText = instructionCount > 0 ? ` (${instructionCount} instructions)` : "";
   
   if (isASorted && isBEmpty) {
     return {
       success: true,
-      message: "✅ Success! Stack A is sorted and Stack B is empty.",
+      message: `✅ Success! Stack A is sorted and Stack B is empty.${instructionText}`,
       details: `Sorted ${stackA.length} elements successfully.`
     };
   } else if (!isASorted && isBEmpty) {
     return {
       success: false,
-      message: "❌ Failed! Stack A is not properly sorted.",
+      message: `❌ Failed! Stack A is not properly sorted.${instructionText}`,
       details: "Stack B is empty but Stack A contains unsorted elements."
     };
   } else if (isASorted && !isBEmpty) {
     return {
       success: false,
-      message: "❌ Incomplete! Stack A is sorted but Stack B is not empty.",
+      message: `❌ Incomplete! Stack A is sorted but Stack B is not empty.${instructionText}`,
       details: `Stack B still contains ${stackB.length} elements.`
     };
   } else {
     return {
       success: false,
-      message: "❌ Failed! Stack A is not sorted and Stack B is not empty.",
+      message: `❌ Failed! Stack A is not sorted and Stack B is not empty.${instructionText}`,
       details: `Stack A is unsorted and Stack B contains ${stackB.length} elements.`
     };
   }

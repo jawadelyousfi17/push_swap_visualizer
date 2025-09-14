@@ -76,7 +76,7 @@ const SimulationTab = ({
   };
 
   const checkSortingStatus = () => {
-    const validation = validateSortingCompletion(ops.a, ops.b);
+    const validation = validateSortingCompletion(ops.a, ops.b, instructions);
     setSortingResult(validation);
     setSnackBarMessage(validation.message);
     setSnackBarStatus(true);
