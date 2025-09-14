@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 
 import '/src/output.css'
 import Instructions from './comps/instructions/comp'
 import Sop from './utils/stack'
-import solvePushSwap from './utils/solve'
-import { useColorScheme } from "@mui/joy/styles";
+import { useTheme } from './hooks/useTheme'
+import { useStackVisualization } from './hooks/useStackVisualization'
 
 import { Analytics } from "@vercel/analytics/react"
 
@@ -12,76 +12,25 @@ import Navbar from './comps/navbar'
 import { CssBaseline, Divider, Sheet } from '@mui/joy'
 
 function App() {
-  const { mode, setMode } = useColorScheme()
-
-  const stackA = useRef(null)
-  const [stackADim, setStackADim] = useState({ width: 0, height: 0 })
+  const { mode, setMode, theme, clg, handleTheme } = useTheme()
+  const {
+    stackA,
+    stackADim,
+    elements,
+    setElements,
+    indexedElements,
+    setIndexedElements,
+    b,
+    setB,
+    styleE,
+    setStyle,
+    classN,
+    showIndxes,
+    setShowindexes
+  } = useStackVisualization()
+  
   const [instructions, setInstructions] = useState([]);
-  const [elements, setElements] = useState([]);
-  const [indexedElements, setIndexedElements] = useState([])
-  const [b, setB] = useState([])
-  const [styleE, setStyle] = useState('big bars + labels')
-  const [classN, setClassN] = useState('stack-elements big-bars')
-  const [showIndxes, setShowindexes] = useState(true)
-  const [theme, setTheme] = useState(localStorage.getItem('thm') || 'default')
-  const [clg, setClg] = useState(0)
   const stackOps = new Sop(indexedElements, b, setIndexedElements, setB, setInstructions);
-
-  useEffect(() => {
-    const savedMode = localStorage.getItem("mode");
-    setMode(savedMode || "dark")
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("mode", mode);
-  }, [mode]);
-
-
-
-  const indexElements = (elements, setIndexedElements) => {
-    const sortedArr = [...elements].sort((a, b) => a - b);
-    setIndexedElements(elements.map(el => ({
-      num: el,
-      index: sortedArr.indexOf(el)
-    })));
-  }
-  useEffect(() => {
-    if (styleE.includes('small')) {
-      setClassN('stack-elements small-bars')
-    } else {
-      setClassN('stack-elements big-bars')
-    }
-  }, [styleE])
-
-
-  useEffect(() => {
-    localStorage.setItem("thm", theme)
-    const th = { red: 10, green: 120, blue: 220, rebecca: 270, default: 50 }
-    setClg(th[theme])
-  }, [theme])
-
-
-  useEffect(() => {
-    const setDims = () => {
-      setStackADim({
-        width: stackA.current.offsetWidth,
-        height: stackA.current.offsetHeight
-      })
-    }
-    indexElements(elements, setIndexedElements)
-    setDims()
-    window.addEventListener('resize', setDims)
-    return () => window.removeEventListener('resize', setDims)
-  }, [])
-
-
-
-  const handleTheme = (e, n) => {
-    setTheme(n)
-  }
-
-  useEffect(() => { indexElements(elements, setIndexedElements) }, [elements])
-  useEffect(() => { console.log(indexedElements) }, [indexedElements])
 
 
   return (
@@ -95,7 +44,19 @@ function App() {
 
       <div className='flex h-screen 2xl:w-2/3 mx-auto '>
         <div className='inst max-w-screen-sm'>
-          <Instructions theme={theme} setTheme={setTheme} clg={clg} setClg={setClg} setShowindexes={setShowindexes} showIndxes={showIndxes} setStyle={setStyle} ops={stackOps} setA={setElements} setB={setB} setInstructions={setInstructions} instructions={instructions} ></Instructions>
+          <Instructions 
+            theme={theme} 
+            clg={clg} 
+            setShowindexes={setShowindexes} 
+            showIndxes={showIndxes} 
+            setStyle={setStyle} 
+            styleE={styleE}
+            ops={stackOps} 
+            setA={setElements} 
+            setB={setB} 
+            setInstructions={setInstructions} 
+            instructions={instructions} 
+          />
         </div>
         <Sheet variant='outlined' className={` flex-1 overflow-y-scroll rr`} ref={stackA}>
           {indexedElements.map((el, i) => <div key={i} style={{

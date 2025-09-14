@@ -12,6 +12,7 @@ import { RxOpenInNewWindow } from "react-icons/rx";
 import { IoMoonOutline } from "react-icons/io5";
 
 import { IoLogoGithub } from "react-icons/io";
+import { FaStar } from "react-icons/fa";
 
 const Navbar = ({ theme, handleTheme, mode, setMode }) => {
 
@@ -41,7 +42,20 @@ const Navbar = ({ theme, handleTheme, mode, setMode }) => {
                     <Option value="green">Green</Option>
                     <Option value="rebecca">Rebecca Purple</Option>
                 </Select>
-                <Button component="a" href="https://github.com/jawadelyousfi17/push_swap_visualizer/issues" color='neutral' variant='plain' endDecorator={<RxOpenInNewWindow />}>Report bugs</Button>
+                
+                <Button 
+                    component="a" 
+                    href="https://github.com/jawadelyousfi17/push_swap_visualizer" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    color='warning' 
+                    variant='soft' 
+                    startDecorator={<FaStar />}
+                >
+                    Star on GitHub
+                </Button>
+                
+                <Button component="a" href="https://github.com/jawadelyousfi17/push_swap_visualizer/issues" target="_blank" rel="noopener noreferrer" color='neutral' variant='plain' endDecorator={<RxOpenInNewWindow />}>Report bugs</Button>
 
             </div>
 

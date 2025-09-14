@@ -1,15 +1,7 @@
 import Button from "@mui/joy/Button";
+import { generateRandomNumbers, getPermutations } from '../utils/arrayUtils';
 
 const Benchmark = ({setSnackBarStatus, setSnackBarMessage}) => {
-
-  const generateRandomNumbers = (count, min, max) => {
-    const randomNumbers = new Set();
-    while (randomNumbers.size < count) {
-      const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
-      randomNumbers.add(randomNumber);
-    }
-    return Array.from(randomNumbers);
-  };
 
   const generateHandredItems = (n) => {
     const items = generateRandomNumbers(n, -100000, 1000000);
@@ -19,23 +11,6 @@ const Benchmark = ({setSnackBarStatus, setSnackBarMessage}) => {
     setSnackBarStatus(true);
   }
 
-  function getPermutations(arr) {
-    const result = [];
-    
-    function permute(current, remaining) {
-        if (remaining.length === 0) {
-            result.push(current);
-            return;
-        }
-        
-        for (let i = 0; i < remaining.length; i++) {
-            permute([...current, remaining[i]], remaining.slice(0, i).concat(remaining.slice(i + 1)));
-        }
-    }
-    
-    permute([], arr);
-    return result;
-}
 
 
   const gen5 = () => {
