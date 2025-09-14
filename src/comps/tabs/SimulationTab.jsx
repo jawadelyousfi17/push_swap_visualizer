@@ -54,8 +54,10 @@ const SimulationTab = ({
     if (instructions[0] === "END") {
       instructions.shift();
     }
-    if (index < instructions.length - 1) {
-      executeInstruction(ops, instructions[index]);
+    if (index < instructions.length) {
+      if (instructions[index] !== "END") {
+        executeInstruction(ops, instructions[index]);
+      }
       setIndex(index + 1);
     }
     if (instructions[instructions.length - 1] !== "END") {
@@ -94,8 +96,10 @@ const SimulationTab = ({
     setSortingResult(null); // Clear previous result
     
     if (speed === 0) {
-      for (i = index; i < instructions.length - 1; i++) {
-        executeInstruction(ops, instructions[i]);
+      for (i = index; i < instructions.length; i++) {
+        if (instructions[i] !== "END") {
+          executeInstruction(ops, instructions[i]);
+        }
         setIndex(i + 1);
       }
       setIsPlaying(false);
@@ -104,14 +108,19 @@ const SimulationTab = ({
     }
     
     intervalRef.current = setInterval(() => {
-      if (i < instructions.length - 1) {
-        executeInstruction(ops, instructions[i]);
+      if (i < instructions.length) {
+        if (instructions[i] !== "END") {
+          executeInstruction(ops, instructions[i]);
+        }
         setIndex(i + 1);
         i++;
-      } else {
-        clearInterval(intervalRef.current);
-        setIsPlaying(false);
-        checkSortingStatus(); // Check sorting after completion
+        
+        // Check if we've reached the end
+        if (i >= instructions.length) {
+          clearInterval(intervalRef.current);
+          setIsPlaying(false);
+          checkSortingStatus(); // Check sorting after completion
+        }
       }
     }, speed);
   };
@@ -152,7 +161,7 @@ const SimulationTab = ({
       
       <div className="flex gap-2 justify-start">
         <Button
-          disabled={isPlaying || index === instructions.length - 1}
+          disabled={isPlaying || index >= instructions.length}
           onClick={play}
         >
           Play
