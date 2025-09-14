@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 import '/src/output.css'
 import Instructions from './comps/instructions/comp'
@@ -9,6 +9,7 @@ import { useStackVisualization } from './hooks/useStackVisualization'
 import { Analytics } from "@vercel/analytics/react"
 
 import Navbar from './comps/navbar'
+import FeedbackPopup from './comps/FeedbackPopup'
 import { CssBaseline, Divider, Sheet } from '@mui/joy'
 
 function App() {
@@ -30,7 +31,30 @@ function App() {
   } = useStackVisualization()
   
   const [instructions, setInstructions] = useState([]);
+  const [showFeedbackPopup, setShowFeedbackPopup] = useState(false);
   const stackOps = new Sop(indexedElements, b, setIndexedElements, setB, setInstructions);
+
+  // Feedback popup timer - show after 1 minute if not dismissed before
+  useEffect(() => {
+    const hasSeenFeedback = localStorage.getItem('psv_feedback_dismissed');
+    
+    if (!hasSeenFeedback) {
+      const timer = setTimeout(() => {
+        setShowFeedbackPopup(true);
+      }, 60000); // 1 minute
+
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
+  const handleCloseFeedbackPopup = () => {
+    setShowFeedbackPopup(false);
+  };
+
+  const handleDontShowAgain = () => {
+    localStorage.setItem('psv_feedback_dismissed', 'true');
+    setShowFeedbackPopup(false);
+  };
 
 
   return (
@@ -73,6 +97,13 @@ function App() {
           }} className={classN}>{styleE.includes('labels') && (showIndxes ? el.index : el.num)}   </div>)}
         </Sheet>
       </div>
+
+      {/* Feedback Popup */}
+      <FeedbackPopup
+        open={showFeedbackPopup}
+        onClose={handleCloseFeedbackPopup}
+        onDontShowAgain={handleDontShowAgain}
+      />
     </div>
   )
 }
