@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { Analytics } from '@vercel/analytics/next'
 import { Toast } from './comps/ui/Controls'
 
 import Sop from './utils/stack'
@@ -61,8 +60,6 @@ function App() {
 
   return (
     <div className="min-h-screen bg-frame">
-      <Analytics />
-
       <div className="flex flex-col lg:h-screen">
         <TopBar />
 

@@ -1,5 +1,6 @@
 import './globals.css'
 import { Roboto, Roboto_Mono } from 'next/font/google'
+import { Analytics } from '@vercel/analytics/next'
 
 const sans = Roboto({ subsets: ['latin'], weight: ['400', '500', '700'], variable: '--font-sans' })
 const mono = Roboto_Mono({ subsets: ['latin'], weight: ['400', '500'], variable: '--font-mono' })
@@ -16,6 +17,7 @@ export default function RootLayout({ children }) {
     <html lang="en" className={`${sans.variable} ${mono.variable}`}>
       <body>
         {children}
+        <Analytics />
       </body>
     </html>
   )
