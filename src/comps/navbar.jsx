@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { IoIosBug } from "react-icons/io";
 import Divider from '@mui/joy/Divider';
 import Typography from '@mui/joy/Typography';
@@ -15,6 +16,9 @@ import { IoLogoGithub } from "react-icons/io";
 import { FaStar } from "react-icons/fa";
 
 const Navbar = ({ theme, handleTheme, mode, setMode }) => {
+    // Color mode comes from localStorage, so only render mode-dependent UI after mount
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => setMounted(true), []);
 
     function setT() {
         if (mode === 'dark')
@@ -30,12 +34,12 @@ const Navbar = ({ theme, handleTheme, mode, setMode }) => {
             <div className="flex gap-2">
                 <IconButton onClick={setT} variant="outlined"  >
 
-                    {mode === 'dark' && <MdOutlineWbSunny />
+                    {mounted && mode === 'dark' && <MdOutlineWbSunny />
                     }
-                    {mode === 'light' && <IoMoonOutline />
+                    {mounted && mode === 'light' && <IoMoonOutline />
                     }                </IconButton>
 
-                <Select defaultValue={theme} onChange={handleTheme}>
+                <Select value={theme} onChange={handleTheme}>
                     <Option value="default">Default</Option>
                     <Option value="red">Red</Option>
                     <Option value="blue">Blue</Option>

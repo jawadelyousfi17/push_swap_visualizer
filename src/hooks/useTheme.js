@@ -6,8 +6,15 @@ import { useColorScheme } from "@mui/joy/styles";
  */
 export const useTheme = () => {
   const { mode, setMode } = useColorScheme();
-  const [theme, setTheme] = useState(localStorage.getItem('thm') || 'default');
+  const [theme, setTheme] = useState('default');
   const [clg, setClg] = useState(0);
+  const [themeLoaded, setThemeLoaded] = useState(false);
+
+  // Load saved theme after mount (localStorage is unavailable during SSR)
+  useEffect(() => {
+    setTheme(localStorage.getItem('thm') || 'default');
+    setThemeLoaded(true);
+  }, []);
 
   // Initialize mode from localStorage
   useEffect(() => {
@@ -17,11 +24,13 @@ export const useTheme = () => {
 
   // Save mode to localStorage when it changes
   useEffect(() => {
+    if (!themeLoaded || !mode) return;
     localStorage.setItem("mode", mode);
-  }, [mode]);
+  }, [mode, themeLoaded]);
 
   // Update color and save theme to localStorage
   useEffect(() => {
+    if (!themeLoaded) return;
     localStorage.setItem("thm", theme);
     const themeColors = { 
       red: 10, 
@@ -31,7 +40,7 @@ export const useTheme = () => {
       default: 50 
     };
     setClg(themeColors[theme]);
-  }, [theme]);
+  }, [theme, themeLoaded]);
 
   const handleTheme = (e, newTheme) => {
     setTheme(newTheme);

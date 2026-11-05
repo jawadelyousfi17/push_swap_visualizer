@@ -1,12 +1,13 @@
+'use client'
+
 import { useState, useEffect } from 'react'
 
-import '/src/output.css'
 import Instructions from './comps/instructions/comp'
 import Sop from './utils/stack'
 import { useTheme } from './hooks/useTheme'
 import { useStackVisualization } from './hooks/useStackVisualization'
 
-import { Analytics } from "@vercel/analytics/react"
+import { Analytics } from "@vercel/analytics/next"
 
 import Navbar from './comps/navbar'
 import FeedbackPopup from './comps/FeedbackPopup'
@@ -60,6 +61,7 @@ function App() {
   return (
     <div className='flex flex-col'>
       <Analytics/>
+
       <CssBaseline></CssBaseline>
 
       <Navbar mode={mode} setMode={setMode} theme={theme} handleTheme={handleTheme} />
