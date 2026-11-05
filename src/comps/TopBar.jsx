@@ -4,14 +4,22 @@ import Button from './ui/Button';
 
 const REPO = 'https://github.com/jawadelyousfi17/push_swap_visualizer';
 
-/** Two stacks of bars: the product's own mark. */
+const GEAR =
+  'M17.42 5.19 L19.19 2.16 L23.52 3.96 L22.64 7.35 L24.65 9.36 L28.04 8.48 L29.84 12.81 L26.81 14.58 L26.81 17.42 L29.84 19.19 L28.04 23.52 L24.65 22.64 L22.64 24.65 L23.52 28.04 L19.19 29.84 L17.42 26.81 L14.58 26.81 L12.81 29.84 L8.48 28.04 L9.36 24.65 L7.35 22.64 L3.96 23.52 L2.16 19.19 L5.19 17.42 L5.19 14.58 L2.16 12.81 L3.96 8.48 L7.35 9.36 L9.36 7.35 L8.48 3.96 L12.81 2.16 L14.58 5.19 Z';
+
+/** Gear with an angular P cut out and a jaw slot: same mark as the favicon. */
 const Mark = () => (
-  <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true">
-    <rect x="1" y="3" width="9" height="3" rx="1" fill="var(--op-push)" />
-    <rect x="1" y="8" width="5" height="3" rx="1" fill="var(--op-swap)" />
-    <rect x="1" y="13" width="7" height="3" rx="1" fill="var(--op-rot)" />
-    <rect x="12" y="13" width="9" height="3" rx="1" fill="var(--op-rrot)" />
-    <rect x="12" y="18" width="6" height="3" rx="1" fill="var(--ink-3)" />
+  <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true">
+    <path d={GEAR} fill="var(--ink)" />
+    <path
+      d="M9.4 24.2 L13.6 9.6 L19.6 9.6 L22.2 13.4 L19.6 17.2 L14.3 17.2"
+      fill="none"
+      stroke="var(--sunk)"
+      strokeWidth="2.6"
+      strokeLinejoin="miter"
+      strokeMiterlimit="10"
+    />
+    <path d="M22.4 13.4 L31 11.9 L31 14.9 Z" fill="var(--sunk)" />
   </svg>
 );
 

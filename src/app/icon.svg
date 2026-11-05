@@ -1,10 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="7" fill="#1b1b1b"/>
-  <!-- stack A -->
-  <rect x="5" y="6" width="12" height="4" rx="1.2" fill="#3b8fe0"/>
-  <rect x="5" y="12" width="7" height="4" rx="1.2" fill="#d9a520"/>
-  <rect x="5" y="18" width="10" height="4" rx="1.2" fill="#34a058"/>
-  <!-- stack B -->
-  <rect x="18" y="18" width="9" height="4" rx="1.2" fill="#e07b2a"/>
-  <rect x="18" y="24" width="6" height="4" rx="1.2" fill="#7d7d7d"/>
+  <rect width="32" height="32" rx="7" fill="#0b0b0b"/>
+  <path d="M17.42 5.19 L19.19 2.16 L23.52 3.96 L22.64 7.35 L24.65 9.36 L28.04 8.48 L29.84 12.81 L26.81 14.58 L26.81 17.42 L29.84 19.19 L28.04 23.52 L24.65 22.64 L22.64 24.65 L23.52 28.04 L19.19 29.84 L17.42 26.81 L14.58 26.81 L12.81 29.84 L8.48 28.04 L9.36 24.65 L7.35 22.64 L3.96 23.52 L2.16 19.19 L5.19 17.42 L5.19 14.58 L2.16 12.81 L3.96 8.48 L7.35 9.36 L9.36 7.35 L8.48 3.96 L12.81 2.16 L14.58 5.19 Z" fill="#f4f4f4"/>
+  <path d="M9.4 24.2 L13.6 9.6 L19.6 9.6 L22.2 13.4 L19.6 17.2 L14.3 17.2" fill="none" stroke="#0b0b0b" stroke-width="2.6" stroke-linejoin="miter" stroke-miterlimit="10"/>
+  <path d="M22.4 13.4 L31 11.9 L31 14.9 Z" fill="#0b0b0b"/>
 </svg>
