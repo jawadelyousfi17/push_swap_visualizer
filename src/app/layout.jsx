@@ -1,5 +1,8 @@
 import './globals.css'
-import Providers from './providers'
+import { Roboto, Roboto_Mono } from 'next/font/google'
+
+const sans = Roboto({ subsets: ['latin'], weight: ['400', '500', '700'], variable: '--font-sans' })
+const mono = Roboto_Mono({ subsets: ['latin'], weight: ['400', '500'], variable: '--font-mono' })
 
 export const metadata = {
   title: 'Push swap 42 visualizer',
@@ -10,9 +13,9 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className={`${sans.variable} ${mono.variable}`}>
       <body>
-        <Providers>{children}</Providers>
+        {children}
       </body>
     </html>
   )

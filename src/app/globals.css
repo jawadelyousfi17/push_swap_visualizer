@@ -2,118 +2,142 @@
 @tailwind components;
 @tailwind utilities;
 
-button {
-    background-color: rgb(255, 255, 255);
-    padding: 2px;
-    padding: 2px 10px;
-    border: 1px solid rebeccapurple;
-  }
+/* ---------- Console tokens (dark only) ---------- */
+:root {
+  --frame: #2a2a2a;      /* outer page frame */
+  --sunk: #141414;       /* top bar, tab strips */
+  --base: #1b1b1b;       /* main working surface */
+  --raised: #232323;     /* sidebar section blocks, header strips */
+  --raised-2: #2b2b2b;   /* hover, active tab */
+  --line: #333333;       /* grid lines */
+  --line-strong: #404040;
+  --ink: #e9e9e9;
+  --ink-2: #a9a9a9;
+  --ink-3: #7d7d7d;
 
-  .editable-div {
-    /* border: 1px solid #ccc;
-    padding: 10px;
-    min-height: 300px;
-    width: 100%;
-    font-family: Arial, sans-serif;
-    border-radius: 5px;
-    background-color: #f9f9f9; */
+  /* operation families, taken from the console's severity palette */
+  --op-push: #3b8fe0;
+  --op-swap: #d9a520;
+  --op-rot: #34a058;
+  --op-rrot: #e07b2a;
+  --ok: #34a058;
+  --bad: #d8433b;
+  --accent: #3b8fe0;
 
+  color-scheme: dark;
+}
 
-    max-height: 350px; /* Limit height */
-    overflow-y: auto;  /* Enable vertical scrolling */
-    overflow-x: hidden; /* Disable horizontal scrolling */
-  }
+html,
+body {
+  background: var(--frame);
+  color: var(--ink);
+}
 
-  .editable-div:focus {
-    outline: 2px solid #4f7298; /* Highlight border when focused */
-  }
+body {
+  font-family: var(--font-sans), Roboto, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
 
-  .stack-elements {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    background-color: aqua;
-    margin-bottom: 0px;
-    height: 4px;
-    border-radius: 0px;
-  }
+::selection {
+  background: color-mix(in srgb, var(--accent) 45%, transparent);
+  color: #fff;
+}
 
-  .rr {
-    padding-top: 20px;
-    max-width: 350px;
-    min-width: 300px;
-    max-height: calc(100vh - 80px);
-    border: 1px solid black;
-    border-radius: 8px;
-    margin: 9px;
-  }
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+/* No visible scrollbars anywhere; areas still scroll by wheel, touch and keyboard */
+* {
+  scrollbar-width: none;
+}
+*::-webkit-scrollbar {
+  display: none;
+}
+
+/* Range slider */
+.psv-range {
+  appearance: none;
+  height: 16px;
+  background: transparent;
+  cursor: pointer;
+}
+.psv-range::-webkit-slider-runnable-track {
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--accent) var(--fill), #3d3d3d var(--fill));
+}
+.psv-range::-moz-range-track {
+  height: 3px;
+  border-radius: 2px;
+  background: #3d3d3d;
+}
+.psv-range::-moz-range-progress {
+  height: 3px;
+  border-radius: 2px;
+  background: var(--accent);
+}
+.psv-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  margin-top: -5.5px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--accent);
+}
+.psv-range::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--accent);
+}
+
+/* Toast entrance */
+@keyframes psv-toast-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+.psv-toast {
+  animation: psv-toast-in 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .psv-toast { animation: none; }
+}
+
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Uppercase console label used by tabs, section headers, table heads */
+.label-caps {
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ---------- Stack bars ---------- */
+.stack-elements {
+  display: flex;
+  align-items: center;
+  border-radius: 0 2px 2px 0;
+}
 
 .big-bars {
+  height: 22px;
   margin-top: 2px;
-  height: 25px;
-  color: white;
-  padding-left:10px ;
-  font-size: 14px;
-  text-shadow: 1px 1px 2px #000000;
-  border-radius: 0px ;
+  padding-left: 8px;
+  color: #fff;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.85);
+  white-space: nowrap;
 }
 
-.small-bars {     
+.small-bars {
   height: 4px;
-}
-
-  .rec {
-    background-color: red;
-  }
-
-  .instruction {
-    width: 60px;
-    height: 60px;
-    background-color: rgb(86, 180, 180);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    justify-items: center;
-  }
-
-  .instruction.active {
-    background-color: #ccc;
-  }
-
-  .inst {
-    min-width: 550px;
-    max-width: 650px;
-  }
-
-  .active {
-    background-color: #88fe55;
-  }
-
-
-
-
-/* For Webkit browsers (Chrome, Safari, Edge) */
-.rr::-webkit-scrollbar {
-  width: 12px; /* Set the width of the scrollbar */
-  height: 12px; /* Set the height of the scrollbar */
-}
-
-.rr::-webkit-scrollbar-track {
-  background-color: #f1f1f1; /* Set background color of the track */
-  border-radius: 10px; /* Round the corners of the track */
-}
-
-.rr::-webkit-scrollbar-thumb {
-  background-color: #888; /* Set color of the thumb (scroll bar) */
-  border-radius: 10px; /* Round the corners of the thumb */
-}
-
-.rr::-webkit-scrollbar-thumb:hover {
-  background-color: #555; /* Darker color when hovered */
-}
-
-/* For Firefox */
-.rr {
-  scrollbar-width: thin; /* Make the scrollbar thinner */
-  scrollbar-color: #888 #f1f1f1; /* Set thumb and track colors */
 }

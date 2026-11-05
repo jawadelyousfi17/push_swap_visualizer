@@ -1,20 +1,23 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
+import { Analytics } from '@vercel/analytics/next'
+import { Toast } from './comps/ui/Controls'
 
-import Instructions from './comps/instructions/comp'
 import Sop from './utils/stack'
+import { isStackASorted } from './utils/stackValidator'
 import { useTheme } from './hooks/useTheme'
 import { useStackVisualization } from './hooks/useStackVisualization'
 
-import { Analytics } from "@vercel/analytics/next"
-
-import Navbar from './comps/navbar'
+import TopBar from './comps/TopBar'
+import Sidebar, { parseNumbers } from './comps/Sidebar'
+import Workbench from './comps/Workbench'
+import StackPanel from './comps/StackPanel'
+import Seo from './comps/seo'
 import FeedbackPopup from './comps/FeedbackPopup'
-import { CssBaseline, Divider, Sheet } from '@mui/joy'
 
 function App() {
-  const { mode, setMode, theme, clg, handleTheme } = useTheme()
+  const { theme, setTheme, clg } = useTheme()
   const {
     stackA,
     stackADim,
@@ -28,83 +31,99 @@ function App() {
     setStyle,
     classN,
     showIndxes,
-    setShowindexes
+    setShowindexes,
   } = useStackVisualization()
-  
-  const [instructions, setInstructions] = useState([]);
-  const [showFeedbackPopup, setShowFeedbackPopup] = useState(false);
-  const stackOps = new Sop(indexedElements, b, setIndexedElements, setB, setInstructions);
 
-  // Feedback popup timer - show after 1 minute if not dismissed before
+  const [numbers, setNumbers] = useState('')
+  const [instructions, setInstructions] = useState([])
+  const [toast, setToast] = useState('')
+  const [showFeedbackPopup, setShowFeedbackPopup] = useState(false)
+  const stackOps = new Sop(indexedElements, b, setIndexedElements, setB, setInstructions)
+
+  const notify = useCallback((message) => setToast(message), [])
+  const clearToast = useCallback(() => setToast(''), [])
+
+  const applyNumbers = (text) => {
+    setElements(parseNumbers(text))
+    setB([])
+  }
+
+  // Feedback popup: show after 1 minute unless dismissed for good
   useEffect(() => {
-    const hasSeenFeedback = localStorage.getItem('psv_feedback_dismissed');
-    
-    if (!hasSeenFeedback) {
-      const timer = setTimeout(() => {
-        setShowFeedbackPopup(true);
-      }, 60000); // 1 minute
+    if (localStorage.getItem('psv_feedback_dismissed')) return
+    const timer = setTimeout(() => setShowFeedbackPopup(true), 60000)
+    return () => clearTimeout(timer)
+  }, [])
 
-      return () => clearTimeout(timer);
-    }
-  }, []);
-
-  const handleCloseFeedbackPopup = () => {
-    setShowFeedbackPopup(false);
-  };
-
-  const handleDontShowAgain = () => {
-    localStorage.setItem('psv_feedback_dismissed', 'true');
-    setShowFeedbackPopup(false);
-  };
-
+  const total = elements.length
+  const sorted = total > 0 && b.length === 0 && isStackASorted(indexedElements)
+  const instructionCount = instructions.filter((i) => i.trim() && i !== 'END').length
 
   return (
-    <div className='flex flex-col'>
-      <Analytics/>
+    <div className="min-h-screen bg-frame">
+      <Analytics />
 
-      <CssBaseline></CssBaseline>
+      <div className="flex flex-col lg:h-screen">
+        <TopBar />
 
-      <Navbar mode={mode} setMode={setMode} theme={theme} handleTheme={handleTheme} />
-
-      <Divider></Divider>
-
-      <div className='flex h-screen 2xl:w-2/3 mx-auto '>
-        <div className='inst max-w-screen-sm'>
-          <Instructions 
-            theme={theme} 
-            clg={clg} 
-            setShowindexes={setShowindexes} 
-            showIndxes={showIndxes} 
-            setStyle={setStyle} 
+        <main className="grid min-h-0 flex-1 gap-px bg-line max-lg:grid-cols-1 lg:grid-cols-[288px_minmax(380px,440px)_1fr]">
+          <Sidebar
+            total={total}
+            sizeA={indexedElements.length}
+            sizeB={b.length}
+            instructionCount={instructionCount}
+            sorted={sorted}
+            numbers={numbers}
+            setNumbers={setNumbers}
+            applyNumbers={applyNumbers}
             styleE={styleE}
-            ops={stackOps} 
-            setA={setElements} 
-            setB={setB} 
-            setInstructions={setInstructions} 
-            instructions={instructions} 
+            setStyle={setStyle}
+            showIndxes={showIndxes}
+            setShowindexes={setShowindexes}
+            theme={theme}
+            setTheme={setTheme}
+            notify={notify}
           />
-        </div>
-        <Sheet variant='outlined' className={` flex-1 overflow-y-scroll rr`} ref={stackA}>
-          {indexedElements.map((el, i) => <div key={i} style={{
-            width: (stackADim.width - 20) / elements.length * (el.index + 1),
-            backgroundColor: theme !== 'default' ? `hsl(${clg + (elements.length - el.index) * 25 / elements.length}, 90%, ${(elements.length - el.index) * 75 / elements.length + 15}%)` : `hsl(${(elements.length - el.index) * 60 / elements.length}, 100%, 50%)`
 
-          }} className={classN} > {styleE.includes('labels') && (showIndxes ? el.index : el.num)} </div>)}
-        </Sheet>
+          <div className="flex min-h-0 flex-col max-lg:order-3 max-lg:h-[640px]">
+            <Workbench
+              ops={stackOps}
+              instructions={instructions}
+              setInstructions={setInstructions}
+              resetStacks={() => applyNumbers(numbers)}
+              total={total}
+              notify={notify}
+            />
+          </div>
 
-        <Sheet variant='outlined' className='  flex-1 overflow-y-scroll rr'>
-          {b.map((el, i) => <div key={i} style={{
-            width: (stackADim.width - 20) / elements.length * (el.index + 1),
-            backgroundColor: theme !== 'default' ? `hsl(${clg}, 90%, ${(elements.length - el.index) * 50 / elements.length + 5}%)` : `hsl(${(elements.length - el.index) * 60 / elements.length}, 100%, 50%)`
-          }} className={classN}>{styleE.includes('labels') && (showIndxes ? el.index : el.num)}   </div>)}
-        </Sheet>
+          <div className="flex min-h-0 flex-col max-lg:order-2 max-lg:h-[60vh]">
+            <StackPanel
+              stackRef={stackA}
+              width={stackADim.width}
+              a={indexedElements}
+              b={b}
+              total={total}
+              classN={classN}
+              styleE={styleE}
+              showIndxes={showIndxes}
+              theme={theme}
+              clg={clg}
+            />
+          </div>
+        </main>
       </div>
 
-      {/* Feedback Popup */}
+      <Seo />
+
+      <Toast message={toast} onDone={clearToast} />
+
       <FeedbackPopup
         open={showFeedbackPopup}
-        onClose={handleCloseFeedbackPopup}
-        onDontShowAgain={handleDontShowAgain}
+        onClose={() => setShowFeedbackPopup(false)}
+        onDontShowAgain={() => {
+          localStorage.setItem('psv_feedback_dismissed', 'true')
+          setShowFeedbackPopup(false)
+        }}
       />
     </div>
   )
