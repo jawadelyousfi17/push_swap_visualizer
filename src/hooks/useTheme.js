@@ -1,48 +1,24 @@
 import { useState, useEffect } from 'react';
-import { useColorScheme } from "@mui/joy/styles";
+
+const THEME_COLORS = { red: 10, green: 120, blue: 220, rebecca: 270, default: 50 };
 
 /**
- * Custom hook for managing theme state and color scheme
+ * Bar color theme, persisted in localStorage. The app itself is dark only.
  */
 export const useTheme = () => {
-  const { mode, setMode } = useColorScheme();
-  const [theme, setTheme] = useState(localStorage.getItem('thm') || 'default');
-  const [clg, setClg] = useState(0);
+  const [theme, setTheme] = useState('default');
+  const [loaded, setLoaded] = useState(false);
 
-  // Initialize mode from localStorage
+  // Load after mount: localStorage is unavailable during SSR
   useEffect(() => {
-    const savedMode = localStorage.getItem("mode");
-    setMode(savedMode || "dark");
-  }, [setMode]);
+    const saved = localStorage.getItem('thm');
+    if (saved && saved in THEME_COLORS) setTheme(saved);
+    setLoaded(true);
+  }, []);
 
-  // Save mode to localStorage when it changes
   useEffect(() => {
-    localStorage.setItem("mode", mode);
-  }, [mode]);
+    if (loaded) localStorage.setItem('thm', theme);
+  }, [theme, loaded]);
 
-  // Update color and save theme to localStorage
-  useEffect(() => {
-    localStorage.setItem("thm", theme);
-    const themeColors = { 
-      red: 10, 
-      green: 120, 
-      blue: 220, 
-      rebecca: 270, 
-      default: 50 
-    };
-    setClg(themeColors[theme]);
-  }, [theme]);
-
-  const handleTheme = (e, newTheme) => {
-    setTheme(newTheme);
-  };
-
-  return {
-    mode,
-    setMode,
-    theme,
-    setTheme,
-    clg,
-    handleTheme
-  };
+  return { theme, setTheme, clg: THEME_COLORS[theme] ?? 50 };
 };

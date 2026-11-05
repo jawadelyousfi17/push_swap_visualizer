@@ -1,0 +1,143 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------- Console tokens (dark only) ---------- */
+:root {
+  --frame: #2a2a2a;      /* outer page frame */
+  --sunk: #141414;       /* top bar, tab strips */
+  --base: #1b1b1b;       /* main working surface */
+  --raised: #232323;     /* sidebar section blocks, header strips */
+  --raised-2: #2b2b2b;   /* hover, active tab */
+  --line: #333333;       /* grid lines */
+  --line-strong: #404040;
+  --ink: #e9e9e9;
+  --ink-2: #a9a9a9;
+  --ink-3: #7d7d7d;
+
+  /* operation families, taken from the console's severity palette */
+  --op-push: #3b8fe0;
+  --op-swap: #d9a520;
+  --op-rot: #34a058;
+  --op-rrot: #e07b2a;
+  --ok: #34a058;
+  --bad: #d8433b;
+  --accent: #3b8fe0;
+
+  color-scheme: dark;
+}
+
+html,
+body {
+  background: var(--frame);
+  color: var(--ink);
+}
+
+body {
+  font-family: var(--font-sans), Roboto, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 45%, transparent);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+/* No visible scrollbars anywhere; areas still scroll by wheel, touch and keyboard */
+* {
+  scrollbar-width: none;
+}
+*::-webkit-scrollbar {
+  display: none;
+}
+
+/* Range slider */
+.psv-range {
+  appearance: none;
+  height: 16px;
+  background: transparent;
+  cursor: pointer;
+}
+.psv-range::-webkit-slider-runnable-track {
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--accent) var(--fill), #3d3d3d var(--fill));
+}
+.psv-range::-moz-range-track {
+  height: 3px;
+  border-radius: 2px;
+  background: #3d3d3d;
+}
+.psv-range::-moz-range-progress {
+  height: 3px;
+  border-radius: 2px;
+  background: var(--accent);
+}
+.psv-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  margin-top: -5.5px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--accent);
+}
+.psv-range::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--accent);
+}
+
+/* Toast entrance */
+@keyframes psv-toast-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+.psv-toast {
+  animation: psv-toast-in 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .psv-toast { animation: none; }
+}
+
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Uppercase console label used by tabs, section headers, table heads */
+.label-caps {
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ---------- Stack bars ---------- */
+.stack-elements {
+  display: flex;
+  align-items: center;
+  border-radius: 0 2px 2px 0;
+}
+
+.big-bars {
+  height: 22px;
+  margin-top: 2px;
+  padding-left: 8px;
+  color: #fff;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.85);
+  white-space: nowrap;
+}
+
+.small-bars {
+  height: 4px;
+}
